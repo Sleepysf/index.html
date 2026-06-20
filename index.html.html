@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Squirt Squad™ | Since 2024</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+:root{
+    --primary:#00bfff;
+    --secondary:#008cff;
+    --dark:#08111d;
+    --card:#101d2e;
+    --text:#ffffff;
+    --gray:#b9c5d1;
+}
+
+/* Animations & Transitions */
+.fade-in {
+    animation: fadeInAnimation 1s ease-in-out forwards;
+}
+
+@keyframes fadeInAnimation {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Glow Effects */
+.btn:hover, .card:hover {
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.6);
+    transition: 0.3s;
+}
+
+/* Loading Screen */
+#loader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--dark); display: flex; justify-content: center;
+    align-items: center; z-index: 9999; transition: opacity 0.5s ease;
+}
+
+.loader-bubble {
+    width: 50px; height: 50px; border: 5px solid rgba(0, 191, 255, 0.2);
+    border-top: 5px solid var(--primary); border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+body{
+    background:linear-gradient(135deg,#06101b,#0d1c2f,#10253e);
+    color:var(--text); overflow-x:hidden; padding-bottom: 70px;
+}
+
+/* Animated Water Background */
+.water-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; overflow: hidden; pointer-events: none;
+}
+
+.bubble {
+    position: absolute; bottom: -100px; background: rgba(0, 191, 255, 0.1);
+    border-radius: 50%; animation: rise infinite ease-in;
+}
+
+@keyframes rise {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-1000px) scale(1.5); opacity: 0; }
+}
+
+header{
+    position:fixed; width:100%; top:0; z-index:1000;
+    backdrop-filter:blur(12px); background:rgba(0,0,0,.35);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+nav{
+    max-width:1400px; margin:auto; display:flex;
+    justify-content:space-between; align-items:center; padding:18px 30px;
+}
+
+.logo-text{ font-size:1.5rem; font-weight:800; color:#6dd5ff; }
+
+.nav-links{ display:flex; gap:25px; }
+
+.nav-links a{ text-decoration:none; color:white; transition:.3s; font-weight: 500; }
+.nav-links a:hover{ color:#6dd5ff; }
+
+/* Mobile Navigation */
+.mobile-nav {
+    display: none; position: fixed; bottom: 0; left: 0; width: 100%;
+    background: rgba(16, 29, 46, 0.95); backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,.08); z-index: 1000;
+    padding: 10px 20px; justify-content: space-around;
+}
+
+.mobile-nav a {
+    color: var(--gray); text-decoration: none; display: flex;
+    flex-direction: column; align-items: center; font-size: 0.75rem;
+}
+
+/* Hero Centered */
+.hero{
+    min-height:100vh; display:flex; align-items:center;
+    justify-content:center; padding:140px 40px 80px; text-align: center;
+}
+
+.hero-content { max-width: 800px; }
+
+.hero-text h1{ font-size:4rem; line-height:1; margin-bottom:20px; }
+.hero-text span{ color:#6dd5ff; }
+.hero-text p{ color:var(--gray); font-size:1.1rem; line-height:1.8; margin-bottom:30px; }
+
+.hero-buttons{ display:flex; gap:15px; justify-content: center; }
+
+.btn{
+    padding:14px 28px; border-radius:12px; text-decoration:none;
+    font-weight:700; transition:.3s; cursor: pointer; border: none;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 1rem;
+}
+
+.primary{ background:linear-gradient(45deg,#00c6ff,#0072ff); color:white; }
+.secondary{ border:2px solid #00bfff; color:white; background: transparent; }
+
+.section{ padding:100px 30px; }
+.container{ max-width:1400px; margin:auto; }
+.section-title{ text-align:center; font-size:3rem; margin-bottom:60px; }
+.section-title span{ color:#6dd5ff; }
+
+.about{ background:rgba(255,255,255,.03); }
+.about-content{ max-width:1000px; margin:auto; text-align:center; line-height:2; color:var(--gray); font-size:1.1rem; }
+
+.team-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px; }
+
+.card{
+    background:var(--card); padding:30px; border-radius:20px;
+    border:1px solid rgba(255,255,255,.05); transition:.3s;
+}
+
+.card h3{ color:#6dd5ff; margin-bottom:15px; }
+.card li{ padding:8px 0; color:var(--gray); list-style: none; }
+
+.discord-box{
+    background:linear-gradient(135deg,#5865F2,#7289DA);
+    padding:50px; border-radius:25px; text-align: center;
+}
+
+.discord-btn{
+    background:white; color:#5865F2; text-decoration:none;
+    padding:15px 30px; border-radius:12px; font-weight:800; display: inline-block;
+}
+
+footer{ text-align:center; padding:40px; color:var(--gray); }
+
+@media(max-width:900px){
+    .nav-links{ display:none; }
+    .mobile-nav { display: flex; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loader"><div class="loader-bubble"></div></div>
+<div class="water-bg" id="water-bg"></div>
+
+<header>
+<nav>
+<div class="logo-text">Squirt Squad™</div>
+<div class="nav-links">
+<a href="#about">About</a>
+<a href="#team">Team</a>
+<a href="#discord">Discord</a>
+</div>
+</nav>
+</header>
+
+<div class="mobile-nav">
+    <a href="#about"><ion-icon name="information-circle-outline"></ion-icon>About</a>
+    <a href="#team"><ion-icon name="people-outline"></ion-icon>Team</a>
+    <a href="#discord"><ion-icon name="logo-discord"></ion-icon>Discord</a>
+</div>
+
+<section class="hero fade-in">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1>Welcome to <span>Squirt Squad™</span></h1>
+            <p>A community built on friendship, gaming, music, movie nights, and unforgettable memories.</p>
+            <div class="hero-buttons">
+                <a href="#team" class="btn primary">Meet The Team</a>
+                <a href="https://discord.gg/tnAmVFVNkU" class="btn secondary" target="_blank">Join Discord</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="section about fade-in">
+    <div class="container">
+        <h2 class="section-title">About <span>Us</span></h2>
+        <div class="about-content">
+            <p>Welcome to our community, the ultimate social hangout where there's always something to do and someone to connect with! We are all about kicking back, sharing a laugh, and diving into whatever we're feeling that day. When it comes to gaming, you'll always find a crew ready to play—whether you're building massive worlds in Minecraft, dropping in for a victory royale in Fortnite, or exploring endless realms in Roblox and other community favorites. But we're more than just gaming; we also love to come together for relaxing movie nights and share a deep passion for making and listening to music. It's the perfect spot to chill, vibe to some great tracks, meet new friends, and just do what you love.</p>
+        </div>
+    </div>
+</section>
+
+<section id="team" class="section fade-in">
+    <div class="container">
+        <h2 class="section-title">The <span>Team</span></h2>
+        <div class="team-grid">
+            <div class="card"><h3>Founders</h3><ul><li>SFJT</li><li>DA Cherry Poppa</li><li>Squirt</li></ul></div>
+            <div class="card"><h3>Co-Owners</h3><ul><li>Soup Da Dick</li><li>fofz</li></ul></div>
+            <div class="card"><h3>Admins</h3><ul><li>Realm</li><li>𝐎𝐰𝟑𝐧</li><li>scenes</li><li>𝑀𝒜𝒳𝒴𝒫𝒜𝒟</li></ul></div>
+        </div>
+    </div>
+</section>
+
+<section id="discord" class="section discord fade-in">
+    <div class="container">
+        <div class="discord-box">
+            <h2>Join Squirt Squad™</h2>
+            <p>Ready to meet new friends, game together, and be part of the community?</p>
+            <a class="discord-btn" href="https://discord.gg/tnAmVFVNkU" target="_blank">Join Our Discord</a>
+        </div>
+    </div>
+</section>
+
+<footer>© 2024 - 2026 Squirt Squad™</footer>
+
+<script>
+    // Audio Setup
+    const hoverSound = new Audio('https://actions.google.com/sounds/v1/water/stream_water.ogg');
+    const clickSound = new Audio('https://actions.google.com/sounds/v1/ui/click.ogg');
+
+    // Play hover sound
+    document.querySelectorAll('.btn, .card, a').forEach(el => {
+        el.addEventListener('mouseover', () => {
+            hoverSound.currentTime = 0;
+            hoverSound.play().catch(e => {}); 
+        });
+        el.addEventListener('click', () => {
+            clickSound.play().catch(e => {});
+        });
+    });
+
+    // Loading & Water BG Logic
+    window.addEventListener('load', () => {
+        document.getElementById('loader').style.opacity = '0';
+        setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
+    });
+
+    const waterBg = document.getElementById('water-bg');
+    for (let i = 0; i < 20; i++) {
+        let bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        let size = Math.random() * 40 + 10;
+        bubble.style.width = size + 'px';
+        bubble.style.height = size + 'px';
+        bubble.style.left = Math.random() * 100 + 'vw';
+        bubble.style.animationDuration = Math.random() * 5 + 5 + 's';
+        bubble.style.animationDelay = Math.random() * 5 + 's';
+        waterBg.appendChild(bubble);
+    }
+</script>
+
+</body>
+</html>
